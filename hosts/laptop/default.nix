@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/nixos/desktop.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -77,13 +78,7 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
      git
-     neovim
-
-     curl # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-
-     tree
-     htop
+     vim
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
