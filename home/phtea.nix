@@ -13,6 +13,8 @@
 		../modules/home/screenshots.nix
 
 		../modules/home/fuzzel.nix
+
+		../modules/home/lazygit.nix
 	];
 
 	home.username = "phtea";

@@ -8,11 +8,9 @@
 
     ripgrep
     fd
-    lazygit
     wl-clipboard
     gcc
     unzip
-    git
   ];
 
   xdg.configFile."nvim".source =
