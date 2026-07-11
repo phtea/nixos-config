@@ -13,8 +13,6 @@
 		../modules/home/fuzzel.nix
 		../modules/home/lazygit.nix
 		../modules/home/tmux.nix
-		# TODO: add icons to the bar + current language
-		# TODO: docker, lua, nix lsps and tools
 		# TODO: sounds
 	];
 
@@ -36,5 +34,10 @@
 
 		# gui
 		telegram-desktop
+
+		# development
+		lua
+		lua-language-server
+		nixd
 	];
 }

@@ -1,19 +1,19 @@
 { config, pkgs, ... }:
- 
+
 {
-  home.packages = with pkgs; [
-    neovim
+	home.packages = with pkgs; [
+		neovim
 
 		tree-sitter
 
-    ripgrep
-    fd
-    wl-clipboard
-    gcc
-    unzip
-  ];
+		ripgrep
+		fd
+		wl-clipboard
+		gcc
+		unzip
+	];
 
-  xdg.configFile."nvim".source =
-    config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/Projects/nvim"; 
+	xdg.configFile."nvim".source =
+		config.lib.file.mkOutOfStoreSymlink
+		"${config.home.homeDirectory}/Projects/nvim"; 
 }
