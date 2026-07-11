@@ -13,8 +13,7 @@
 		../modules/home/fuzzel.nix
 		../modules/home/lazygit.nix
 		../modules/home/tmux.nix
-		../modules/home/telegram.nix
-		# TODO: add icons to the bar, current language
+		# TODO: add icons to the bar + current language
 		# TODO: docker, lua, nix lsps and tools
 		# TODO: sounds
 	];
@@ -27,14 +26,15 @@
 	programs.home-manager.enable = true;
 
 	home.packages = with pkgs; [
+		# cli
 		git
-
-		ripgrep # TODO: удалить?
-		fd # TODO: удалить?
-
 		tree
 		htop
 		curl
 		wget
+		fastfetch
+
+		# gui
+		telegram-desktop
 	];
 }

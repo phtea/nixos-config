@@ -10,47 +10,60 @@ let
     yellow = "#DCDCAA";
   };
 
-  i3statusConfig = pkgs.writeText "i3status.conf" ''
-    general {
-      colors = true
-      interval = 2
+	statusConfig = pkgs.writeText "i3status-rust.toml" ''
+		[theme]
+		theme = "plain"
 
-      color_good = "${colors.green}"
-      color_degraded = "${colors.yellow}"
-      color_bad = "${colors.red}"
-    }
+		[theme.overrides]
+		idle_bg = "${colors.background}"
+		idle_fg = "${colors.foreground}"
+		good_bg = "${colors.background}"
+		good_fg = "${colors.green}"
+		warning_bg = "${colors.background}"
+		warning_fg = "${colors.yellow}"
+		critical_bg = "${colors.background}"
+		critical_fg = "${colors.red}"
+		separator = " "
+		separator_bg = "${colors.background}"
+		separator_fg = "${colors.gray}"
 
-    order += "wireless _first_"
-    order += "volume master"
-    order += "battery all"
-    order += "tztime local"
+		[icons]
+		icons = "awesome6"
 
-    wireless _first_ {
-      format_up = "Wi-Fi: %quality at %essid"
-      format_down = "Wi-Fi: down"
-    }
+		[[block]]
+		block = "keyboard_layout"
+		driver = "sway"
+		format = " $layout "
 
-    volume master {
-      format = "Vol: %volume"
-      format_muted = "Vol: muted"
-      device = "default"
-      mixer = "Master"
-      mixer_idx = 0
-    }
+		[block.mappings]
+		"English (US)" = "EN"
+		"Russian" = "RU"
+		"Russian (N/A)" = "RU"
 
-    battery all {
-      format = "Bat: %percentage"
-      format_down = "Bat: ?"
-      status_chr = "CHR"
-      status_bat = "BAT"
-      status_full = "FULL"
-      low_threshold = 15
-    }
+		[[block]]
+		block = "net"
+		device = "^wl"
+		format = " $icon $ssid "
+		inactive_format = " $icon down "
 
-    tztime local {
-      format = "%a %d.%m  %H:%M"
-    }
-  '';
+		[[block]]
+		block = "sound"
+		driver = "pipewire"
+		format = " $icon $volume "
+
+		[[block]]
+		block = "battery"
+		format = " $icon $percentage "
+		full_format = " $icon full "
+		charging_format = " $icon $percentage "
+		warning = 30
+		critical = 15
+
+		[[block]]
+		block = "time"
+		interval = 60
+		format = " $icon $timestamp.datetime(f:'%a %d.%m %H:%M') "
+	'';
 in
 {
   wayland.windowManager.sway = {
@@ -140,8 +153,8 @@ in
           mode = "dock";
           hiddenState = "hide";
 
-          statusCommand =
-            "${pkgs.i3status}/bin/i3status -c ${i3statusConfig}";
+					statusCommand =
+						"${pkgs.i3status-rust}/bin/i3status-rs ${statusConfig}";
 
           fonts = {
             names = [ "JetBrainsMono Nerd Font" ];
