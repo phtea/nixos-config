@@ -29,6 +29,8 @@
       grep = "grep --color=auto";
       ".." = "cd ..";
       n = "nvim";
+      vi = "nvim";
+      vim = "nvim";
  
       # Git
       gc = "git commit";

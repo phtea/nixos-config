@@ -11,6 +11,8 @@
 
 		../modules/home/notifications.nix
 		../modules/home/screenshots.nix
+
+		../modules/home/fuzzel.nix
 	];
 
 	home.username = "phtea";

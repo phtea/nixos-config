@@ -13,8 +13,18 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+		enable = true;
+		configurationLimit = 5;
+	};
+	 
   boot.loader.efi.canTouchEfiVariables = true;
+
+	nix.gc = {
+		automatic = true;
+		dates = "weekly";
+		options = "--delete-older-than 14d";
+	};
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -69,10 +79,10 @@
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-     git
-     vim
-  ];
+  # environment.systemPackages = with pkgs; [
+  #    git
+  #    vim
+  # ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
