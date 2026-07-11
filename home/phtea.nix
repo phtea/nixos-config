@@ -3,6 +3,7 @@
 {
 
 	imports = [
+		../modules/home/bash.nix
 		../modules/home/sway.nix
 		../modules/home/ghostty.nix
 		../modules/home/firefox.nix
@@ -29,20 +30,4 @@
 
 		tmux
 	];
-
-  home.sessionVariables = {
-	  EDITOR = "nvim";
-	  VISUAL = "nvim";
-  };
-
-	programs.bash = {
-		enable = true;
-		enableCompletion = true;
-
-		shellAliases = {
-			vim = "nvim";
-			vi = "nvim";
-			n = "nvim";
-		};
-	};
 }
