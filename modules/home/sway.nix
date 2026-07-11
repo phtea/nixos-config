@@ -10,60 +10,6 @@ let
     yellow = "#DCDCAA";
   };
 
-	statusConfig = pkgs.writeText "i3status-rust.toml" ''
-		[theme]
-		theme = "plain"
-
-		[theme.overrides]
-		idle_bg = "${colors.background}"
-		idle_fg = "${colors.foreground}"
-		good_bg = "${colors.background}"
-		good_fg = "${colors.green}"
-		warning_bg = "${colors.background}"
-		warning_fg = "${colors.yellow}"
-		critical_bg = "${colors.background}"
-		critical_fg = "${colors.red}"
-		separator = " "
-		separator_bg = "${colors.background}"
-		separator_fg = "${colors.gray}"
-
-		[icons]
-		icons = "awesome6"
-
-		[[block]]
-		block = "keyboard_layout"
-		driver = "sway"
-		format = " $layout "
-
-		[block.mappings]
-		"English (US)" = "EN"
-		"Russian" = "RU"
-		"Russian (N/A)" = "RU"
-
-		[[block]]
-		block = "net"
-		device = "^wl"
-		format = " $icon $ssid "
-		inactive_format = " $icon down "
-
-		[[block]]
-		block = "sound"
-		driver = "pipewire"
-		format = " $icon $volume "
-
-		[[block]]
-		block = "battery"
-		format = " $icon $percentage "
-		full_format = " $icon full "
-		charging_format = " $icon $percentage "
-		warning = 30
-		critical = 15
-
-		[[block]]
-		block = "time"
-		interval = 60
-		format = " $icon $timestamp.datetime(f:'%a %d.%m %H:%M') "
-	'';
 in
 {
   wayland.windowManager.sway = {
@@ -73,6 +19,7 @@ in
       modifier = "Mod4";
       terminal = "ghostty";
 			menu = "${pkgs.fuzzel}/bin/fuzzel";
+			bars = [];
 
       input = {
         "type:keyboard" = {
@@ -146,61 +93,6 @@ in
 
         background = colors.background;
       };
-
-      bars = [
-        {
-          position = "top";
-          mode = "dock";
-          hiddenState = "hide";
-
-					statusCommand =
-						"${pkgs.i3status-rust}/bin/i3status-rs ${statusConfig}";
-
-          fonts = {
-            names = [ "JetBrainsMono Nerd Font" ];
-            size = 10.0;
-          };
-
-          trayOutput = "primary";
-          workspaceButtons = true;
-
-          colors = {
-            background = colors.background;
-            statusline = colors.foreground;
-            separator = colors.green;
-
-            focusedWorkspace = {
-              border = colors.green;
-              background = colors.green;
-              text = colors.background;
-            };
-
-            activeWorkspace = {
-              border = colors.green;
-              background = colors.background;
-              text = colors.green;
-            };
-
-            inactiveWorkspace = {
-              border = colors.background;
-              background = colors.background;
-              text = colors.gray;
-            };
-
-            urgentWorkspace = {
-              border = colors.red;
-              background = colors.red;
-              text = colors.background;
-            };
-
-            bindingMode = {
-              border = colors.yellow;
-              background = colors.yellow;
-              text = colors.background;
-            };
-          };
-        }
-      ];
     };
 
     extraConfig = ''
@@ -215,8 +107,153 @@ in
 			smart_borders on
 			smart_gaps on
 
-      gaps inner 5
+      gaps inner 10
       gaps outer 0
     '';
   };
+
+	programs.waybar = {
+		enable = true;
+		systemd.enable = true;
+
+		settings = {
+			mainBar = {
+				layer = "top";
+				position = "bottom";
+				height = 28;
+
+				modules-left = [ "sway/workspaces" ];
+
+				modules-right = [
+					"tray"
+					"sway/language"
+					"network"
+					"pulseaudio"
+					"battery"
+					"clock"
+				];
+
+				"sway/workspaces" = {
+					disable-scroll = true;
+					all-outputs = false;
+					format = "{name}";
+				};
+
+				"sway/language" = {
+					format = "{shortDescription}";
+				};
+
+				# TODO delete
+				keyboard-state = {
+					numlock = false;
+					capslock = false;
+					format = {
+						locked = " {name} ";
+						unlocked = " {name} ";
+					};
+				};
+
+				network = {
+					interface = "wl*";
+					format-wifi = "   {essid} ";
+					format-ethernet = " 󰈀  {ipaddr} ";
+					format-disconnected = " 󰖪  down ";
+					tooltip-format-wifi = "{ifname}: {essid}\n{ipaddr}";
+				};
+
+				tray = {
+					icon-size = 16;
+					spacing = 6;
+				};
+
+				pulseaudio = {
+					format = " {icon} {volume}% ";
+					format-muted = " 󰝟 muted ";
+					format-icons = {
+						default = [ "" "" "" ];
+					};
+
+					on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+				};
+
+				battery = {
+					states = {
+						warning = 30;
+						critical = 15;
+					};
+
+					format = " {icon} {capacity}% ";
+					format-charging = " 󰂄 {capacity}% ";
+					format-full = " 󰁹 {capacity}% ";
+
+					format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+				};
+
+				clock = {
+					interval = 60;
+					format = " 󰥔 {:%a %d.%m %H:%M} ";
+					tooltip-format = "<tt>{calendar}</tt>";
+				};
+			};
+		};
+
+		style = ''
+		* {
+			border: none;
+			border-radius: 0;
+			min-height: 0;
+			font-family: "JetBrainsMono Nerd Font";
+			font-size: 14px;
+		}
+
+		window#waybar {
+			background: ${colors.background};
+			color: ${colors.foreground};
+		}
+
+		#workspaces button {
+			padding: 0 6px;
+			background: ${colors.background};
+			color: ${colors.gray};
+		}
+
+		#workspaces button.focused {
+			background: ${colors.green};
+			color: ${colors.background};
+		}
+
+		#workspaces button.urgent {
+			background: ${colors.red};
+			color: ${colors.background};
+		}
+
+		#language,
+		#network,
+		#tray,
+		#pulseaudio,
+		#battery,
+		#clock {
+			padding: 0 4px;
+			background: ${colors.background};
+			color: ${colors.foreground};
+		}
+
+		#network.disconnected,
+		#pulseaudio.muted {
+			color: ${colors.gray};
+		}
+
+		#battery.warning {
+			color: ${colors.yellow};
+		}
+
+		#battery.critical {
+			color: ${colors.red};
+		}
+
+		#tray {
+			margin-right: 2px;
+		}
+	'';
+	};
 }
