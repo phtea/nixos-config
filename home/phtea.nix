@@ -6,7 +6,7 @@
 		../modules/home/bash.nix
 		../modules/home/sway.nix
 		../modules/home/ghostty.nix
-		../modules/home/firefox.nix
+		../modules/home/chromium.nix
 		../modules/home/nvim.nix
 	];
 
