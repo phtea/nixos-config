@@ -8,11 +8,20 @@
 			url = "github:nix-community/home-manager/release-26.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+
+		happ-nixos = {
+			url = "github:MrShitFox/happ-nixos";
+			flake = false;
+		};
 	};
 
-	outputs = { nixpkgs, home-manager, ... }: {
+	outputs = inputs@{ nixpkgs, home-manager, ... }: {
 		nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
-			system = "x86-64-linux";
+			system = "x86_64-linux";
+
+			specialArgs = {
+				inherit inputs;
+			};
 
 			modules = [
 				./hosts/laptop/default.nix

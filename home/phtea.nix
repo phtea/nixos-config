@@ -8,6 +8,9 @@
 		../modules/home/ghostty.nix
 		../modules/home/chromium.nix
 		../modules/home/nvim.nix
+
+		../modules/home/notifications.nix
+		../modules/home/screenshots.nix
 	];
 
 	home.username = "phtea";

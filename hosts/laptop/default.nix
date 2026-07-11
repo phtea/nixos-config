@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/nixos/desktop.nix
+      ../../modules/nixos/happ.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -64,7 +65,6 @@
     isNormalUser = true;
     description = "Phtea";
     extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [];
   };
 
   # List packages installed in system profile.
