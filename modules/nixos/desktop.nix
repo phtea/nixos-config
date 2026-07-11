@@ -1,25 +1,20 @@
 { pkgs, ... }:
 
 {
-	programs.sway = {
-		enable = true;
-		wrapperFeatures.gtk = true;
-	};
-
-	programs.chromium = {
-		enable = true;
-	};
+	programs.sway.enable = true;
 
 	services.greetd = {
 		enable = true;
 
 		settings = {
 			default_session = {
-				command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd sway";
+				command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd sway";
 				user = "greeter";
 			};
 		};
 	};
+
+	services.dbus.enable = true;
 
 	xdg.portal = {
 		enable = true;
@@ -28,8 +23,6 @@
 			pkgs.xdg-desktop-portal-gtk
 		];
 	};
-
-	services.dbus.enable = true;
 
 	fonts.packages = with pkgs; [
 		dejavu_fonts

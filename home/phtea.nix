@@ -1,6 +1,14 @@
 { pkgs, ... }:
 
 {
+
+	imports = [
+		../modules/home/sway.nix
+		../modules/home/ghostty.nix
+		../modules/home/firefox.nix
+		../modules/home/nvim.nix
+	];
+
 	home.username = "phtea";
 	home.homeDirectory = "/home/phtea";
 
@@ -10,7 +18,6 @@
 
 	home.packages = with pkgs; [
 		git
-		neovim
 
 		ripgrep
 		fd
@@ -20,6 +27,22 @@
 		curl
 		wget
 
-		ghostty
+		tmux
 	];
+
+  home.sessionVariables = {
+	  EDITOR = "nvim";
+	  VISUAL = "nvim";
+  };
+
+	programs.bash = {
+		enable = true;
+		enableCompletion = true;
+
+		shellAliases = {
+			vim = "nvim";
+			vi = "nvim";
+			n = "nvim";
+		};
+	};
 }
