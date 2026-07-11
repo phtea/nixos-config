@@ -42,9 +42,6 @@
       gd = "git diff";
       gch = "git checkout";
  
-      # Tmux
-      t = "tmux-here";
- 
       # Colored ls
       ls = "ls --color=auto";
       la = "ls -la --color=auto";
@@ -127,7 +124,6 @@
     "$HOME/.local/bin"
     "$HOME/go/bin"
     "$HOME/scripts"
-    "$HOME/.tmux"
   ];
  
   home.packages = with pkgs; [

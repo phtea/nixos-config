@@ -8,13 +8,13 @@
 		../modules/home/ghostty.nix
 		../modules/home/chromium.nix
 		../modules/home/nvim.nix
-
 		../modules/home/notifications.nix
 		../modules/home/screenshots.nix
-
 		../modules/home/fuzzel.nix
-
 		../modules/home/lazygit.nix
+		../modules/home/tmux.nix
+
+		../modules/home/telegram.nix
 	];
 
 	home.username = "phtea";
@@ -34,7 +34,5 @@
 		htop
 		curl
 		wget
-
-		tmux
 	];
 }
