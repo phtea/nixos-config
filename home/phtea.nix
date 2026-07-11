@@ -4,7 +4,7 @@
 
 	imports = [
 		../modules/home/bash.nix
-		../modules/home/sway.nix # TODO: remove foot from sway
+		../modules/home/sway.nix # TODO: default workspace should be 1 (not 0)
 		../modules/home/ghostty.nix
 		../modules/home/chromium.nix
 		../modules/home/nvim.nix
