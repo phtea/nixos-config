@@ -32,8 +32,11 @@
 		wget
 		fastfetch
 
-		# gui
+		# messagers
 		telegram-desktop
+
+		# blackboard
+		drawpile
 
 		# development
 		lua
